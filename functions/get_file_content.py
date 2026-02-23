@@ -4,6 +4,7 @@ import os
 from config import MAX_CHARS
 
 def get_file_content(working_directory, file_path) -> str:
+    target_file = None
     try:
         abspath_working_dir = os.path.abspath(working_directory)
         target_file = os.path.normpath(os.path.join(abspath_working_dir, file_path))
@@ -24,6 +25,9 @@ def get_file_content(working_directory, file_path) -> str:
         return str_content
     
     except Exception as e:
-        error_msg = str(e).replace(target_file, file_path)
+        error_msg = str(e)
+        if target_file:
+            error_msg = error_msg.replace(target_file, file_path)
+        
         return f'Error reading to "{file_path}": {error_msg}'
     

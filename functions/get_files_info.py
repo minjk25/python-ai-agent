@@ -3,6 +3,7 @@
 import os
 
 def get_files_info(working_directory, directory=".") -> str:
+    target_dir = None
     try:
         abspath_working_dir = os.path.abspath(working_directory)
         target_dir = os.path.normpath(os.path.join(abspath_working_dir, directory))
@@ -23,6 +24,9 @@ def get_files_info(working_directory, directory=".") -> str:
         return str_items
     
     except Exception as e:
-        error_msg = str(e).replace(target_dir, directory)
+        error_msg = str(e)
+        if target_dir:
+            error_msg = error_msg.replace(target_dir, directory)
+        
         return f'Error listing files: {error_msg}'
     
