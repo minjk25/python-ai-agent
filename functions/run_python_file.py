@@ -1,0 +1,58 @@
+# functions/run_python_file.py
+
+import os
+import subprocess
+
+def run_python_file(working_directory, file_path, args=None):
+    target_file = None
+    try:
+        abspath_working_dir = os.path.abspath(working_directory)
+        target_file = os.path.normpath(os.path.join(abspath_working_dir, file_path))
+        common_path = os.path.commonpath([abspath_working_dir, target_file])
+        
+        # guardrails
+        if common_path != abspath_working_dir:
+            return f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory'
+        
+        if not os.path.isfile(target_file):
+            return f'Error: "{file_path}" does not exist or is not a regular file'
+        
+        if not file_path.lower().endswith('.py'):
+            return f'Error: "{file_path}" is not a Python file'
+        
+        command = ["python", target_file]
+        if args:
+            command.extend(args)
+        
+        completed_process = subprocess.run(
+            command,
+            cwd=abspath_working_dir,
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        
+        output_list = []
+        return_code = completed_process.returncode
+        std_out = completed_process.stdout.strip()
+        std_err = completed_process.stderr.strip()
+        
+        if return_code != 0:
+            output_list.append(f"Process exited with code {return_code}")
+        
+        if not std_out and not std_err:
+            output_list.append("No output produced")
+        else:
+            if std_out:
+                output_list.append(f"STDOUT: {std_out}")
+            if std_err:
+                output_list.append(f"STDERR: {std_err}")
+        
+        return "\n".join(output_list)
+    
+    except Exception as e:
+        error_msg = str(e)
+        if target_file:
+            error_msg = error_msg.replace(target_file, file_path)
+        
+        return f'Error executing Python file "{file_path}": {error_msg}'
