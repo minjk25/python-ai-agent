@@ -23,5 +23,6 @@ def get_files_info(working_directory, directory=".") -> str:
         return str_items
     
     except Exception as e:
-        return f"Error listing files: {e}"
+        error_msg = str(e).replace(target_dir, directory)
+        return f'Error listing files: {error_msg}'
     

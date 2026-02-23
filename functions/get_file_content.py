@@ -24,5 +24,6 @@ def get_file_content(working_directory, file_path) -> str:
         return str_content
     
     except Exception as e:
-        return f"Error listing files: {e}"
+        error_msg = str(e).replace(target_file, file_path)
+        return f'Error reading to "{file_path}": {error_msg}'
     
