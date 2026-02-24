@@ -1,5 +1,7 @@
 # functions/run_python_file.py
 
+from google.genai import types
+
 import os
 import subprocess
 
@@ -56,3 +58,25 @@ def run_python_file(working_directory, file_path, args=None):
             error_msg = error_msg.replace(target_file, file_path)
         
         return f'Error executing Python file "{file_path}": {error_msg}'
+
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description="Execute a specified Python file relative to the working directory with optional arguments.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The relative path to the python file that should be executed, relative to the working directory",
+            ),
+            "args": types.Schema(
+                type=types.Type.ARRAY,
+                items=types.Schema(
+                    type=types.Type.STRING
+                ),
+                description="Optional list of command-line arguments to pass to the Python script.",
+            )
+        },
+        required=["file_path"]
+    ),
+)

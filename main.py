@@ -1,9 +1,12 @@
 import os
 import argparse
 
+
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from prompts import system_prompt
+from call_function import available_functions
 
 def main():
     parser = argparse.ArgumentParser(description="AI code Assistant.")
@@ -24,7 +27,11 @@ def main():
 def generate_content(client, messages, args):
     response = client.models.generate_content(
         model='gemini-2.5-flash', 
-        contents=messages
+        contents=messages,
+        config=types.GenerateContentConfig(
+            tools=[available_functions],
+            system_instruction=system_prompt
+        )
     )
     
     if response.usage_metadata is None:
@@ -41,8 +48,13 @@ def generate_content(client, messages, args):
         print("Total tokens:", response.usage_metadata.total_token_count)
         print()
     
-    print("Response:")
-    print(response.text)
+    function_calls = response.function_calls
+    if function_calls:
+        for function_call in function_calls:
+            print(f"Calling function: {function_call.name}({function_call.args})")
+    else:
+        print("Response:")
+        print(response.text)
 
 if __name__ == "__main__":
     main()

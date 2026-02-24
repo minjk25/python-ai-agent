@@ -1,5 +1,6 @@
 # functions/write_file.py
 
+from google.genai import types
 import os
 
 def write_file(working_directory, file_path, content) -> str:
@@ -31,3 +32,22 @@ def write_file(working_directory, file_path, content) -> str:
             error_msg = error_msg.replace(target_file, file_path)
         
         return f'Error writing to "{file_path}": {error_msg}'
+
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+    description="Write or overwrite the text content to a specified file relative to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The relative path to the file that should be written, relative to the working directory.",
+            ),
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="The content that should be written to a specified file relative to the working directory.",
+            )
+        },
+        required=["file_path", "content"]
+    ),
+)
