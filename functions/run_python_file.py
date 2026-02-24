@@ -34,8 +34,8 @@ def run_python_file(working_directory, file_path, args=None):
         
         output_list = []
         return_code = completed_process.returncode
-        std_out = completed_process.stdout.strip()
-        std_err = completed_process.stderr.strip()
+        std_out = completed_process.stdout
+        std_err = completed_process.stderr
         
         if return_code != 0:
             output_list.append(f"Process exited with code {return_code}")
