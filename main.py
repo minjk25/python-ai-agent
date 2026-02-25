@@ -1,4 +1,5 @@
 import os
+import sys
 import argparse
 
 
@@ -7,6 +8,7 @@ from google import genai
 from google.genai import types
 from prompts import system_prompt
 from call_function import available_functions, call_function
+from config import MAX_ITERATIONS
 
 def main():
     parser = argparse.ArgumentParser(description="AI code Assistant.")
@@ -22,7 +24,23 @@ def main():
     
     client = genai.Client(api_key=api_key)
     messages = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)])]
-    generate_content(client, messages, args)
+
+    if args.verbose:
+        print(f"\nUser prompt: {args.user_prompt}\n")
+    
+    for _ in range(MAX_ITERATIONS):
+        try:
+            response_answer = generate_content(client, messages, args)
+            if response_answer:
+                print("\nResponse:")
+                print(response_answer)
+                return
+        except Exception as e:
+            print(f"Error in generate_content: {e}")
+            return
+    
+    print("Error: Maximum iterations reached without a final response.")
+    sys.exit(1)
 
 def generate_content(client, messages, args):
     response = client.models.generate_content(
@@ -34,6 +52,12 @@ def generate_content(client, messages, args):
         )
     )
     
+    candidates = response.candidates
+    if candidates:
+        for candidate in candidates:
+            if candidate.content:
+                messages.append(candidate.content)
+    
     if response.usage_metadata is None:
         raise RuntimeError(
             "Missing usage metadata in API response. "
@@ -41,12 +65,9 @@ def generate_content(client, messages, args):
         )
     
     if args.verbose:
-        print("User prompt:", args.user_prompt)
-        print()
-        print("Prompt tokens:", response.usage_metadata.prompt_token_count)
-        print("Response tokens:", response.usage_metadata.candidates_token_count)
-        print("Total tokens:", response.usage_metadata.total_token_count)
-        print()
+        print(" > Prompt tokens:", response.usage_metadata.prompt_token_count)
+        print(" > Response tokens:", response.usage_metadata.candidates_token_count)
+        print(" > Total tokens:", response.usage_metadata.total_token_count)
     
     function_calls = response.function_calls
     if function_calls:
@@ -63,11 +84,14 @@ def generate_content(client, messages, args):
             function_result_list.append(function_call_result.parts[0])
             
             if args.verbose:
-                print(f"-> {function_call_result.parts[0].function_response.response}")
-                
+                print("╰ Result:")
+                print(function_call_result.parts[0].function_response.response["result"])
+                print("-----------------------------------------------\n")
+        
+        messages.append(types.Content(role="user", parts=function_result_list))
+
     else:
-        print("Response:")
-        print(response.text)
+        return response.text
 
 if __name__ == "__main__":
     main()

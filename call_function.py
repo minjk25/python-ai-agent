@@ -18,9 +18,9 @@ available_functions = types.Tool(
 
 def call_function(function_call, verbose=False):
     if verbose:
-        print(f"Calling function: {function_call.name}({function_call.args})")
+        print(f"\n> Calling function: {function_call.name}({function_call.args})")
     else:
-        print(f" - Calling function: {function_call.name}")
+        print(f"\n> Calling function: {function_call.name}")
     
     function_map = {
         "get_files_info": get_files_info,
