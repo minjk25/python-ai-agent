@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from prompts import system_prompt
-from call_function import available_functions
+from call_function import available_functions, call_function
 
 def main():
     parser = argparse.ArgumentParser(description="AI code Assistant.")
@@ -50,8 +50,21 @@ def generate_content(client, messages, args):
     
     function_calls = response.function_calls
     if function_calls:
+        function_result_list = []
         for function_call in function_calls:
-            print(f"Calling function: {function_call.name}({function_call.args})")
+            function_call_result = call_function(function_call, args.verbose)
+            if not function_call_result.parts:
+                raise Exception("No 'parts' list in function call result")
+            if not function_call_result.parts[0].function_response:
+                raise Exception("No 'function response' object in parts list")
+            if not function_call_result.parts[0].function_response.response:
+                raise Exception("No 'response' dict in function response object")
+            
+            function_result_list.append(function_call_result.parts[0])
+            
+            if args.verbose:
+                print(f"-> {function_call_result.parts[0].function_response.response}")
+                
     else:
         print("Response:")
         print(response.text)
