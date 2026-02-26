@@ -24,7 +24,7 @@ def main():
     api_key = os.environ.get("GEMINI_API_KEY")
     
     if api_key is None:
-        raise RuntimeError("GEMINI_API_KEY not found. Please set it in your .env file.")
+        raise RuntimeError("GEMINI_API_KEY not found. Please set it in your '.env' file.")
     
     client = genai.Client(api_key=api_key)
     messages = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)])]
