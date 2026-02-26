@@ -40,10 +40,13 @@ Run the agent with a prompt:
 ```bash
 uv run main.py "Your prompt here"
 ```
+<img src="demo_images/demo1.png" width="600">
+
 Enable verbose output to see token usage and function call details:
 ```bash
 uv run main.py "Your prompt here" --verbose
 ```
+<img src="demo_images/demo2.png" width="600">
 
 ## Project Structure
 ```bash
@@ -63,6 +66,41 @@ uv run main.py "Your prompt here" --verbose
 │       └── render.py
 └── pyproject.toml       # Project dependencies
 ```
+## 🧪 Example: Agent Debugging Workflow
+
+This example demonstrates how the AI agent:
+
+1. Executes a user request
+2. Detects incorrect output caused by a bug
+3. Inspects project files
+4. Fixes the bug
+5. Re-runs the program successfully
+
+### ❌ Step 1: Initial Execution (Buggy Result)
+
+The agent runs the calculator and produces an incorrect result due to a precedence bug:
+
+<p align="center">
+  <img src="demo_images/demo3.gif" width="800">
+</p>
+
+### 🛠 Step 2: Agent Fixes the Bug
+
+The agent inspects `calculator.py`, corrects the precedence logic, and re-runs the program:
+
+<p align="center">
+  <img src="demo_images/demo4.gif" width="800">
+</p>
+
+After the fix, the calculator correctly evaluates:
+`5 + 4 * 2 = 13`
+
+This demonstrates the agent's ability to:
+- Read project files
+- Modify source code
+- Execute Python programs
+- Iteratively improve results
+
 ## Dependencies
 - `google-genai` - Google Gemini API client
 - `python-dotenv` - Environment variable management
@@ -73,4 +111,5 @@ uv run main.py "Your prompt here" --verbose
 - [Google GenAI Python SDK](https://github.com/google-gemini/generative-ai-python)
 - [Function Calling Guide](https://ai.google.dev/gemini-api/docs/function-calling)
 - [Boot.dev](https://boot.dev)
+
 
