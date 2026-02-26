@@ -136,6 +136,7 @@ You can change this to any supported Google AI model by updating the model name 
 ## Dependencies
 - `google-genai` - Google Gemini API client
 - `python-dotenv` - Environment variable management
+- `rich` - Beautiful terminal formatting and output
 
 ## ⚠️ Security Warning & Disclaimer
 
@@ -157,6 +158,7 @@ This is an educational project. The AI agent has the ability to:
 - [Google GenAI Python SDK](https://github.com/google-gemini/generative-ai-python)
 - [Function Calling Guide](https://ai.google.dev/gemini-api/docs/function-calling)
 - [Boot.dev](https://boot.dev)
+
 
 
 
