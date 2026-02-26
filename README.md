@@ -95,6 +95,10 @@ The agent inspects `calculator.py`, corrects the precedence logic, and re-runs t
 After the fix, the calculator correctly evaluates:
 `5 + 4 * 2 = 13`
 
+<p>
+  <img src="demo_images/demo5.png" width="600">
+</p>
+
 This demonstrates the agent's ability to:
 - Read project files
 - Modify source code
@@ -153,6 +157,7 @@ This is an educational project. The AI agent has the ability to:
 - [Google GenAI Python SDK](https://github.com/google-gemini/generative-ai-python)
 - [Function Calling Guide](https://ai.google.dev/gemini-api/docs/function-calling)
 - [Boot.dev](https://boot.dev)
+
 
 
 
