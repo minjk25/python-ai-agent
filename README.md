@@ -1,6 +1,6 @@
 # AI Code Assistant
 
-An AI-powered coding agent built in Python that can autonomously explore, read, execute, and modify code in your codebase.
+A CLI-based AI agent built with Python that can autonomously explore, read, execute, and modify code in your codebase.
 
 ## Overview
 
@@ -73,3 +73,4 @@ uv run main.py "Your prompt here" --verbose
 - [Google GenAI Python SDK](https://github.com/google-gemini/generative-ai-python)
 - [Function Calling Guide](https://ai.google.dev/gemini-api/docs/function-calling)
 - [Boot.dev](https://boot.dev)
+
