@@ -32,7 +32,7 @@ The agent operates in a loop, making function calls to interact with your codeba
    ```
 3. Create a `.env` file in the project root and add your Gemini API key:
    ```bash
-   GEMINI_API_KEY=your_api_key_here
+   GEMINI_API_KEY="your_api_key_here"
    ```
 ## Usage
 
