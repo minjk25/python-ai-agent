@@ -45,7 +45,7 @@ def call_function(function_call, verbose=False):
     
     console.print(
         Panel.fit(
-            f"[bold cyan]⚠ Agnet Calling function:[/bold cyan] [bold]{function_name}()[/bold]",
+            f"[bold cyan]⚠ Agent Calling function:[/bold cyan] [bold]{function_name}()[/bold]",
         border_style="cyan"
         )
     )

@@ -116,7 +116,7 @@ def generate_content(client, messages, args):
         if args.verbose:
                 console.print(
                     Panel.fit(
-                        f"[bold cyan]⚠ Agnet preparing response ... [/bold cyan]",
+                        f"[bold cyan]⚠ Agent preparing response ... [/bold cyan]",
                     border_style="cyan"
                     )
                 )
