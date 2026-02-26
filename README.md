@@ -59,7 +59,7 @@ uv run main.py "Your prompt here" --verbose
 │   ├── get_files_info.py
 │   ├── run_python_file.py
 │   └── write_file.py
-├── calculator/          # Sample calculator app for testing
+├── calculator/          # Sample calculator app for testing (replace with your own project)
 │   ├── main.py
 │   └── pkg/
 │       ├── calculator.py
@@ -101,9 +101,51 @@ This demonstrates the agent's ability to:
 - Execute Python programs
 - Iteratively improve results
 
+## Configuration & Customization
+### 📂 Change the Target Project
+This agent is not limited to the included calculator example.
+You can configure it to work with **any project directory**.
+
+To use the agent with a different codebase:
+1. Update the working directory path in your configuration (config.py --> `WORKING_DIR` varibale)
+2. Place your project files in the desired directory
+3. Run the agent with your new context
+
+The agent will:
+- Inspect files
+- Modify source code
+- Execute Python scripts
+- Iterate based on results
+
+> ⚠️ This agent currently supports Python-based projects only.
+
+### 🧠 Model Configuration
+
+By default, the agent uses: `gemini-2.5-flash`
+
+inside the `generate_content()` call in `main.py`.
+
+You can change this to any supported Google AI model by updating the model name in `main.py`.
+
+> ⚠️ After switching models, make sure your API key has access to the selected model and is properly configured in your environment.
+
 ## Dependencies
 - `google-genai` - Google Gemini API client
 - `python-dotenv` - Environment variable management
+
+## ⚠️ Security Warning & Disclaimer
+
+This is an educational project. The AI agent has the ability to:
+- Read any file in the working directory
+- Overwrite or create files
+- Execute Python code
+
+**Recommendations:**
+- Run the agent in a sandboxed environment or container
+- Avoid running it in directories with sensitive data
+- Review the agent's actions using `--verbose` mode
+- Always back up important files before running the agent
+- Do not use in production environments without proper safeguards
 
 ## Documentation & Resources
 
@@ -111,5 +153,6 @@ This demonstrates the agent's ability to:
 - [Google GenAI Python SDK](https://github.com/google-gemini/generative-ai-python)
 - [Function Calling Guide](https://ai.google.dev/gemini-api/docs/function-calling)
 - [Boot.dev](https://boot.dev)
+
 
 
