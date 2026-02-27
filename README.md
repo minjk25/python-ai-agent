@@ -111,7 +111,7 @@ This agent is not limited to the included calculator example.
 You can configure it to work with **any project directory**.
 
 To use the agent with a different codebase:
-1. Update the working directory path in your configuration (config.py --> `WORKING_DIR` varibale)
+1. Update the working directory path in your configuration (config.py --> `WORKING_DIR` variable)
 2. Place your project files in the desired directory
 3. Run the agent with your new context
 
@@ -155,7 +155,7 @@ This is an educational project. The AI agent has the ability to:
 ## Documentation & Resources
 
 - [Google Gemini API Documentation](https://ai.google.dev/docs)
-- [Google GenAI Python SDK](https://github.com/google-gemini/generative-ai-python)
+- [Google GenAI Python SDK](https://github.com/googleapis/python-genai)
 - [Function Calling Guide](https://ai.google.dev/gemini-api/docs/function-calling)
 - [Boot.dev](https://boot.dev)
 

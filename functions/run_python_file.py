@@ -5,7 +5,7 @@ from google.genai import types
 import os
 import subprocess
 
-def run_python_file(working_directory, file_path, args=None):
+def run_python_file(working_directory, file_path, args=None) -> str:
     target_file = None
     try:
         abspath_working_dir = os.path.abspath(working_directory)

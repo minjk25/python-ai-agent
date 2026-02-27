@@ -2,8 +2,9 @@
 
 from rich.console import Console
 from rich.panel import Panel
+from rich.columns import Columns
 from google.genai import types
-from config import WORKING_DIR
+from config import WORKING_DIR, gray1
 from functions.get_files_info import schema_get_files_info, get_files_info
 from functions.get_file_content import schema_get_file_content, get_file_content
 from functions.write_file import schema_write_file, write_file
@@ -44,9 +45,15 @@ def call_function(function_call, verbose=False):
         )
     
     console.print(
-        Panel.fit(
-            f"[bold cyan]⚠ Agent Calling function:[/bold cyan] [bold]{function_name}()[/bold]",
-        border_style="cyan"
+        Columns(
+            [
+                "\n[bold cyan]╰→[/bold cyan]\n",
+                Panel.fit(
+                    f"[bold cyan]⚠ Agent Calling function:[/bold cyan] [bold]{function_name}()[/bold]",
+                    border_style="cyan",
+                ),
+            ],
+            expand=False,
         )
     )
     
@@ -54,22 +61,22 @@ def call_function(function_call, verbose=False):
         if function_name == "write_file":
             file_path_value = args.get("file_path", "")
             content_value = args.get("content", "")
-            console.print(f"[cyan]  ├─ file_path:[/cyan] [bold]{file_path_value}[/bold]")
-            console.print(f"[cyan]  ├─ content:[/cyan]")
+            console.print(f"[cyan]     ├─ file_path:[/cyan] [bold]{file_path_value}[/bold]")
+            console.print(f"[cyan]     ├─ content:[/cyan]")
             console.print(
                     Panel.fit(
-                        f"[#2b6f77]{content_value}[/#2b6f77]",
-                    border_style="#2b6f77"
+                        f"[{gray1}]{content_value}[/{gray1}]",
+                    border_style=gray1
                     )
                 )
         elif function_name == "run_python_file":
             file_path_value = args.get("file_path", "")
             args_value = args.get("args", "")
-            console.print(f"[cyan]  ├─ file_path:[/cyan] [bold]{file_path_value}[/bold]")
-            console.print(f"[cyan]  ├─ args:[/cyan] [bold]{args_value}[/bold]")
+            console.print(f"[cyan]     ├─ file_path:[/cyan] [bold]{file_path_value}[/bold]")
+            console.print(f"[cyan]     ├─ args:[/cyan] [bold]{args_value}[/bold]")
         else:
             for param, value in args.items():
-                console.print(f"[cyan]  ├─ {param}:[/cyan] [bold]{value}[/bold]")
+                console.print(f"[cyan]     ├─ {param}:[/cyan] [bold]{value}[/bold]")
     
     args["working_directory"] = WORKING_DIR
     function_result = mapped_function(**args)

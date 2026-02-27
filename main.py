@@ -4,12 +4,13 @@ import argparse
 
 from rich.console import Console
 from rich.panel import Panel
+from rich.columns import Columns
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from prompts import system_prompt
 from call_function import available_functions, call_function
-from config import MAX_ITERATIONS
+from config import MAX_ITERATIONS, gray1, blue1, orange1
 
 console = Console()
 
@@ -29,12 +30,11 @@ def main():
     client = genai.Client(api_key=api_key)
     messages = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)])]
     
-    #if args.verbose:
     print()
     console.print(
         Panel.fit(
-            f'[bold][#e7af47]󰁕 User prompt: [/#e7af47]"{args.user_prompt}"[/bold]',
-            border_style="#e7af47"
+            f'[bold][{orange1}]󰁕 User prompt: [/{orange1}]"{args.user_prompt}"[/bold]',
+            border_style=orange1
         )
     )
     print()
@@ -44,11 +44,11 @@ def main():
             response_answer = generate_content(client, messages, args)
             
             if response_answer:
-                console.print("[bold #e7af47]\n󰌵 Agent Response 󰌵[/bold #e7af47]")
+                console.print(f"[bold {orange1}]\n󰌵 Agent Response 󰌵[/bold {orange1}]")
                 console.print(
                     Panel.fit(
                         f"[bold cyan]{response_answer}[/bold cyan]",
-                    border_style="#e7af47"
+                    border_style=orange1
                     )
                 )
                 return
@@ -60,7 +60,7 @@ def main():
     sys.exit(1)
 
 def generate_content(client, messages, args):
-    with console.status("[bold green]Thinking...", spinner="dots"):
+    with console.status("[bold green]Thinking...\n", spinner="dots"):
         response = client.models.generate_content(
             model='gemini-2.5-flash', 
             contents=messages,
@@ -88,9 +88,7 @@ def generate_content(client, messages, args):
         for function_call in function_calls:
             function_call_result = call_function(function_call, args.verbose)
             if args.verbose:
-                console.print(f"\n[#333539] ◇ Prompt tokens: {response.usage_metadata.prompt_token_count}[/#333539]")
-                console.print(f"[#2d3034] ◇ Response tokens: {response.usage_metadata.candidates_token_count}[/#2d3034]")
-                console.print(f"[#2d3034] ◇ Total tokens: {response.usage_metadata.total_token_count}[/#2d3034]\n")
+                show_tokens(response, gray1)
             if not function_call_result.parts:
                 raise Exception("No 'parts' list in function call result")
             if not function_call_result.parts[0].function_response:
@@ -101,31 +99,40 @@ def generate_content(client, messages, args):
             function_result_list.append(function_call_result.parts[0])
             
             if args.verbose:
-                console.print("[#2b6f77]● Result:[/#2b6f77]")
+                console.print(f"[{blue1}]\n● Result:[/{blue1}]")
                 console.print(
                     Panel.fit(
-                        f"[#2b6f77]{function_call_result.parts[0].function_response.response["result"]}[/#2b6f77]",
-                    border_style="#2b6f77"
+                        f"[{blue1}]{function_call_result.parts[0].function_response.response["result"]}[/{blue1}]",
+                    border_style=blue1
                     )
                 )
-                print("\n-------------------------------------------------------------------------------\n")
+                print("\n--------------------------------------------------------------------------------\n")
         
         messages.append(types.Content(role="user", parts=function_result_list))
     
     else:
-        if args.verbose:
-                console.print(
+        console.print(
+            Columns(
+                [
+                    "\n[bold cyan]╰→[/bold cyan]\n",
                     Panel.fit(
                         f"[bold cyan]⚠ Agent preparing response ... [/bold cyan]",
-                    border_style="cyan"
+                        border_style="cyan"
                     )
-                )
-                console.print(f"\n[#637182] ◇ Prompt tokens: {response.usage_metadata.prompt_token_count}[/#637182]")
-                console.print(f"[#637182] ◇ Response tokens: {response.usage_metadata.candidates_token_count}[/#637182]")
-                console.print(f"[#637182] ◇ Total tokens: {response.usage_metadata.total_token_count}[/#637182]")
+                ],
+                expand=False,
+            )
+        )
+        
+        if args.verbose:
+            show_tokens(response, gray1)
+        
         return response.text
 
-color = "#637182"
+def show_tokens(response, color):
+    console.print(f"\n[{color}] ◇ Prompt tokens: {response.usage_metadata.prompt_token_count}[/{color}]")
+    console.print(f"[{color}] ◇ Response tokens: {response.usage_metadata.candidates_token_count}[/{color}]")
+    console.print(f"[{color}] ◇ Total tokens: {response.usage_metadata.total_token_count}[/{color}]")
 
 if __name__ == "__main__":
     main()
