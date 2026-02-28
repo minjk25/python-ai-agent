@@ -40,13 +40,13 @@ Run the agent with a prompt:
 ```bash
 uv run main.py "Your prompt here"
 ```
-<img src="demo_images/demo1.png" width="600">
+<img src="demo_images/updated_demo1.png" width="600">
 
 Enable verbose output to see token usage and function call details:
 ```bash
 uv run main.py "Your prompt here" --verbose
 ```
-<img src="demo_images/demo2.png" width="600">
+<img src="demo_images/updated_demo2.png" width="600">
 
 ## Project Structure
 ```bash
@@ -81,7 +81,7 @@ This example demonstrates how the AI agent:
 The agent runs the calculator and produces an incorrect result due to a precedence bug:
 
 <p align="center">
-  <img src="demo_images/demo3.gif" width="800">
+  <img src="demo_images/updated_demo3.gif" width="800">
 </p>
 
 ### 🛠 Step 2: Agent Fixes the Bug
@@ -89,14 +89,14 @@ The agent runs the calculator and produces an incorrect result due to a preceden
 The agent inspects `calculator.py`, corrects the precedence logic, and re-runs the program:
 
 <p align="center">
-  <img src="demo_images/demo4.gif" width="800">
+  <img src="demo_images/updated_demo4.gif" width="800">
 </p>
 
 After the fix, the calculator correctly evaluates:
 `5 + 4 * 2 = 13`
 
 <p>
-  <img src="demo_images/demo5.png" width="600">
+  <img src="demo_images/updated_demo5.png" width="600">
 </p>
 
 This demonstrates the agent's ability to:
