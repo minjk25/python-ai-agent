@@ -11,5 +11,6 @@ MAX_ITERATIONS = 20 # set max iteration for looping generate_content()
 
 # color configuration in 'main.py' and 'call_function.py'
 gray1 = "#637182"
-blue1 = "#2b6f77" 
+blue1 = "#2b6f77"
+green1 = "#498d5c" 
 orange1 = "#e7af47"

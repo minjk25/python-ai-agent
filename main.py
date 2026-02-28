@@ -5,6 +5,7 @@ import argparse
 from rich.console import Console
 from rich.panel import Panel
 from rich.columns import Columns
+from rich.markdown import Markdown
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -47,8 +48,11 @@ def main():
                 console.print(f"[bold {orange1}]\n󰌵 Agent Response 󰌵[/bold {orange1}]")
                 console.print(
                     Panel.fit(
-                        f"[bold cyan]{response_answer}[/bold cyan]",
-                    border_style=orange1
+                        Markdown(
+                            response_answer,
+                            # style="cyan"
+                        ),
+                        border_style=orange1
                     )
                 )
                 return
@@ -62,7 +66,7 @@ def main():
 def generate_content(client, messages, args):
     with console.status("[bold green]Thinking...\n", spinner="dots"):
         response = client.models.generate_content(
-            model='gemini-2.5-flash', 
+            model='gemini-2.5-pro', 
             contents=messages,
             config=types.GenerateContentConfig(
                 tools=[available_functions],
@@ -116,7 +120,7 @@ def generate_content(client, messages, args):
                 [
                     "\n[bold cyan]╰→[/bold cyan]\n",
                     Panel.fit(
-                        f"[bold cyan]⚠ Agent preparing response ... [/bold cyan]",
+                        f"[bold cyan]⚠ Agent preparing response... [/bold cyan]",
                         border_style="cyan"
                     )
                 ],

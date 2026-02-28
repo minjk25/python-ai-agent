@@ -4,7 +4,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.columns import Columns
 from google.genai import types
-from config import WORKING_DIR, gray1
+from config import WORKING_DIR, green1
 from functions.get_files_info import schema_get_files_info, get_files_info
 from functions.get_file_content import schema_get_file_content, get_file_content
 from functions.write_file import schema_write_file, write_file
@@ -65,8 +65,8 @@ def call_function(function_call, verbose=False):
             console.print(f"[cyan]     ├─ content:[/cyan]")
             console.print(
                     Panel.fit(
-                        f"[{gray1}]{content_value}[/{gray1}]",
-                    border_style=gray1
+                        f"[{green1}]{content_value}[/{green1}]",
+                    border_style=green1
                     )
                 )
         elif function_name == "run_python_file":
