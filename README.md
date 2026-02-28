@@ -125,11 +125,14 @@ The agent will:
 
 ### 🧠 Model Configuration
 
-By default, the agent uses: `gemini-2.5-flash`
+By default, the agent uses: `gemini-2.5-pro` inside the `generate_content()` call in `main.py`.
 
-inside the `generate_content()` call in `main.py`.
+This project currently works with:
 
-You can change this to any supported Google AI model by updating the model name in `main.py`.
+- `gemini-2.5-flash`
+- `gemini-2.5-pro`
+
+You can switch to `gemini-2.5-flash` or `gemini-2.5-pro` AI model by updating the model name in `main.py`.
 
 > ⚠️ After switching models, make sure your API key has access to the selected model and is properly configured in your environment.
 
